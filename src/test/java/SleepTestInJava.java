@@ -1,4 +1,4 @@
-import com.stewsters.World;
+import com.stewsters.Planner;
 import com.stewsters.goap.ActionList;
 import com.stewsters.path.PathNode;
 import org.junit.Test;
@@ -7,100 +7,97 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by bloodred on 7/29/14.
- */
 public class SleepTestInJava {
 
 
     @Test
     public void testReloading() {
 
-        World world = new World(Arrays.asList("hungry", "has_food", "in_kitchen", "tired", "in_bed"));
+        Planner planner = new Planner();
 
-        HashMap startState = new HashMap();
+        HashMap<String, Boolean> startState = new HashMap<String, Boolean>();
         startState.put("hungry", true);
         startState.put("has_food", false);
         startState.put("in_kitchen", false);
         startState.put("tired", true);
         startState.put("in_bed", false);
 
-        world.setStartState(startState);
+        planner.setStartState(startState);
 
-        HashMap goalState = new HashMap();
+        HashMap<String, Boolean> goalState = new HashMap<String, Boolean>();
         goalState.put("tired", false);
-        world.setGoalState(goalState);
+        planner.setGoalState(goalState);
 
 
         ActionList actions = new ActionList();
-        HashMap eatCondition = new HashMap();
+        HashMap<String, Boolean> eatCondition = new HashMap<String, Boolean>();
         eatCondition.put("hungry", true);
         eatCondition.put("has_food", true);
         eatCondition.put("in_kitchen", false);
         actions.addCondition("eat", eatCondition);
 
-        HashMap eatReaction = new HashMap();
+        HashMap<String, Boolean> eatReaction = new HashMap<String, Boolean>();
         eatReaction.put("hungry", false);
         actions.addReaction("eat", eatReaction);
 
 
-        HashMap cookCondition = new HashMap();
+        HashMap<String, Boolean> cookCondition = new HashMap<String, Boolean>();
         cookCondition.put("hungry", true);
         cookCondition.put("has_food", false);
         cookCondition.put("in_kitchen", true);
         actions.addCondition("cook", cookCondition);
 
-        HashMap cookReaction = new HashMap();
+        HashMap<String, Boolean> cookReaction = new HashMap<String, Boolean>();
         cookReaction.put("has_food", true);
         actions.addReaction("cook", cookReaction);
 
 
-        HashMap sleepCondition = new HashMap();
+        HashMap<String, Boolean> sleepCondition = new HashMap<String, Boolean>();
         sleepCondition.put("tired", true);
         sleepCondition.put("in_bed", true);
         actions.addCondition("sleep", sleepCondition);
 
-        HashMap sleepReaction = new HashMap();
+        HashMap<String, Boolean> sleepReaction = new HashMap<String, Boolean>();
         sleepReaction.put("tired", false);
         actions.addReaction("sleep", sleepReaction);
 
 
         // go to bed
-        HashMap goToBedCondition = new HashMap();
+        HashMap<String, Boolean> goToBedCondition = new HashMap<String, Boolean>();
         goToBedCondition.put("in_bed", false);
         goToBedCondition.put("hungry", false);
         actions.addCondition("go_to_bed", goToBedCondition);
 
-        HashMap goToBedReaction = new HashMap();
+        HashMap<String, Boolean> goToBedReaction = new HashMap<String, Boolean>();
         goToBedReaction.put("in_bed", true);
         actions.addReaction("go_to_bed", goToBedReaction);
 
         // go to kitchen
-        HashMap goToKitchenCondition = new HashMap();
+        HashMap<String, Boolean> goToKitchenCondition = new HashMap<String, Boolean>();
         goToKitchenCondition.put("in_kitchen", false);
         actions.addCondition("go_to_kitchen", goToKitchenCondition);
 
-        HashMap goToKitchenReaction = new HashMap();
+        HashMap<String, Boolean> goToKitchenReaction = new HashMap<String, Boolean>();
         goToKitchenReaction.put("in_kitchen", true);
         actions.addReaction("go_to_kitchen", goToKitchenReaction);
 
         // leave kitchen
-        HashMap leaveKitchenCondition = new HashMap();
+        HashMap<String, Boolean> leaveKitchenCondition = new HashMap<String, Boolean>();
         leaveKitchenCondition.put("in_kitchen", true);
         actions.addCondition("leave_kitchen", leaveKitchenCondition);
 
-        HashMap leaveKitchenReaction = new HashMap();
+        HashMap<String, Boolean> leaveKitchenReaction = new HashMap<String, Boolean>();
         leaveKitchenReaction.put("in_kitchen", false);
         actions.addReaction("leave_kitchen", leaveKitchenReaction);
 
 
         // order pizza
-        HashMap orderPizzaCondition = new HashMap();
+        HashMap<String, Boolean> orderPizzaCondition = new HashMap<String, Boolean>();
         orderPizzaCondition.put("has_food", false);
         orderPizzaCondition.put("hungry", true);
         actions.addCondition("order_pizza", orderPizzaCondition);
 
-        HashMap orderPizzaReaction = new HashMap();
+        HashMap<String, Boolean> orderPizzaReaction = new HashMap<String, Boolean>();
         orderPizzaReaction.put("has_food", true);
         actions.addReaction("order_pizza", orderPizzaReaction);
 
@@ -108,9 +105,9 @@ public class SleepTestInJava {
         actions.setWeight("go_to_kitchen", 20f);
         actions.setWeight("order_pizza", 1f);
 
-        world.setActionList(actions);
+        planner.setActionList(actions);
 
-        List<PathNode> path = world.calculate();
+        List<PathNode> path = planner.calculate();
 
         List<String> desired = Arrays.asList("start",
                 "order_pizza",

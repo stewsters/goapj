@@ -1,4 +1,4 @@
-import com.stewsters.World
+import com.stewsters.Planner
 import com.stewsters.goap.ActionList
 import com.stewsters.path.PathNode
 import org.junit.Test
@@ -7,11 +7,11 @@ class SleepTestInGroovy {
 
     @Test
     public void testFood() {
-        World world = new World<String>(['hungry', 'has_food', 'in_kitchen', 'tired', 'in_bed'])
+        Planner brain = new Planner()
 
-        world.setStartState(hungry: true, has_food: false, in_kitchen: false, tired: true, in_bed: false)
+        brain.setStartState(hungry: true, has_food: false, in_kitchen: false, tired: true, in_bed: false)
 
-        world.setGoalState(tired: false)
+        brain.setGoalState(tired: false)
 
 
         def actions = new ActionList()
@@ -34,9 +34,9 @@ class SleepTestInGroovy {
         actions.setWeight('order_pizza', 1)
 
 
-        world.setActionList(actions)
+        brain.setActionList(actions)
 
-        List<PathNode> path = world.calculate()
+        List<PathNode> path = brain.calculate()
 
         def desired = ["start",
                        "order_pizza",
@@ -44,7 +44,7 @@ class SleepTestInGroovy {
                        "go_to_bed",
                        "sleep"]
 
-        path.eachWithIndex { def entry, int i ->
+        path.eachWithIndex { PathNode entry, Integer i ->
             println "${i + 1} $entry"
             assert entry.name == (desired[i]);
         }

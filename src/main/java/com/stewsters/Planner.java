@@ -1,14 +1,14 @@
 package com.stewsters;
 
+import com.stewsters.goap.ActionList;
 import com.stewsters.goap.GameState;
 import com.stewsters.path.AStarPathfinder;
-import com.stewsters.goap.ActionList;
 import com.stewsters.path.PathNode;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class World {
+public class Planner {
 
     private GameState startState;
     private GameState goalState;
@@ -16,7 +16,7 @@ public class World {
     private HashMap<String, Boolean> values;
     private ActionList actionList;
 
-    public World(List<String> keys) {
+    public Planner() {
         startState = null;
         goalState = null;
         values = new HashMap<String, Boolean>();
