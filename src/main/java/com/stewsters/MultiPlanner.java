@@ -32,6 +32,12 @@ public class MultiPlanner {
 
     }
 
+    /**
+     * This generates a plan, organized by lowest total cost of the sub plan
+     * It may be better to assign some sort of value to each of the plans, or choose a mode the ai player is in.
+     *
+     * @return An arrayList of PathNodes to accomplish the plans.
+     */
     public ArrayList<PathNode> getPlan() {
 
         HashMap<Float, List<PathNode>> tempPlans = new HashMap<Float, List<PathNode>>();
@@ -47,7 +53,6 @@ public class MultiPlanner {
             } else {
                 tempPlans.put(planCost, plan);
             }
-            //TODO: this will fail if 2 plans have the same cost?
         }
 
 
